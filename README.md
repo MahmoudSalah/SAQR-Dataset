@@ -1,11 +1,11 @@
-# SAQR: A Synthetic-to-Real Arabic Handwriting Recognition, Retrieval, and Demographic Benchmark
+# SAQR: A Paired Printed–Handwritten Arabic Line Dataset for Handwriting Recognition and Cross-Modal Retrieval
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Zenodo DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.XXXXXXX-blue)](https://zenodo.org/)
 
 Official custom code repository for the paper:  
-**"SAQR: Synthetic-to-Real Arabic Handwriting Recognition, Retrieval, and Demographic Benchmark"**.
+**"SAQR: A Paired Printed–Handwritten Arabic Line Dataset for Handwriting Recognition and Cross-Modal Retrieval"**.
 
 ---
 
@@ -111,7 +111,7 @@ If you use the SAQR dataset or code in your research, please cite our paper:
 
 ```bibtex
 @article{saqr2026arabic,
-  title={SAQR: Synthetic-to-Real Arabic Handwriting Recognition, Retrieval, and Demographic Benchmark},
+  title={SAQR: A Paired Printed–Handwritten Arabic Line Dataset for Handwriting Recognition and Cross-Modal Retrieval},
   author={MS Kasem et al.},
   journal={Scientific Data},
   year={2026}
