@@ -2,7 +2,7 @@
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Zenodo DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.XXXXXXX-blue)](https://zenodo.org/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21800019.svg)](https://doi.org/10.5281/zenodo.21800019)
 
 Official custom code repository for the paper:  
 **"SAQR: A Paired Printed–Handwritten Arabic Line Dataset for Handwriting Recognition and Cross-Modal Retrieval"**.
