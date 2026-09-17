@@ -112,8 +112,8 @@ If you use the SAQR dataset or code in your research, please cite our paper:
 ```bibtex
 @article{saqr2026arabic,
   title={SAQR: Synthetic-to-Real Arabic Handwriting Recognition, Retrieval, and Demographic Benchmark},
-  author={Salah et al.},
-  journal={Journal of Imaging / Computer Vision},
+  author={MS Kasem et al.},
+  journal={Scientific Data},
   year={2026}
 }
 ```
