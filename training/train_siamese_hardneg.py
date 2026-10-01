@@ -28,18 +28,20 @@ from transformers import ViTModel, ViTImageProcessor
 from tqdm import tqdm
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-MANIFEST_PATH   = "/home/salah/Downloads/clean_crops_curated/manifest.csv"
-GT_DIR          = "/home/salah/Downloads/clean_crops_curated/gt"
-HW_DIR          = "/home/salah/Downloads/clean_crops_curated/hw"
-MODEL_NAME      = "google/vit-base-patch16-224"
-OUTPUT_PATH     = "/media/salah/New Volume/SSD Important papers/ckpts/siamese-hardneg.pt"
-BATCH_SIZE      = 32
-EPOCHS          = 40
-LR              = 2e-5
-EMBED_DIM       = 256
-TEMPERATURE     = 0.05          # Lower temperature = sharper distribution
-HARD_NEG_EVERY  = 5             # Re-mine hard negatives every N epochs
-SEED            = 42
+# Set DATA_ROOT to the directory containing manifest.csv, gt/, and hw/
+DATA_ROOT     = "data/clean_crops_curated"
+MANIFEST_PATH = os.path.join(DATA_ROOT, "manifest.csv")
+GT_DIR        = os.path.join(DATA_ROOT, "gt")
+HW_DIR        = os.path.join(DATA_ROOT, "hw")
+MODEL_NAME    = "google/vit-base-patch16-224"
+OUTPUT_PATH   = "./siamese-hardneg.pt"
+BATCH_SIZE    = 32
+EPOCHS        = 40
+LR            = 2e-5
+EMBED_DIM     = 256
+TEMPERATURE  = 0.05          # Lower temperature = sharper distribution
+HARD_NEG_EVERY = 5           # Re-mine hard negatives every N epochs
+SEED          = 42
 # ───────────────────────────────────────────────────────────────────────────────
 
 random.seed(SEED); np.random.seed(SEED); torch.manual_seed(SEED)

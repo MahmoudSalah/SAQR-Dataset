@@ -45,15 +45,17 @@ from transformers import (
 from sklearn.metrics import accuracy_score, f1_score, classification_report, balanced_accuracy_score, matthews_corrcoef
 
 # ── Configuration ──────────────────────────────────────────────────────────────
-MANIFEST_PATH = "/home/salah/Downloads/clean_crops_curated/manifest.csv"
-IMAGE_DIR     = "/home/salah/Downloads/clean_crops_curated/hw"
+# Set DATA_ROOT to the directory containing manifest.csv, gt/, and hw/
+DATA_ROOT     = "data/clean_crops_curated"
+MANIFEST_PATH = os.path.join(DATA_ROOT, "manifest.csv")
+IMAGE_DIR     = os.path.join(DATA_ROOT, "hw")
 MODEL_NAME    = "google/vit-base-patch16-224"
-OUTPUT_DIR    = "/home/salah/.gemini/antigravity/scratch/Arabic_Dataset/gender-classifier-vit"
+OUTPUT_DIR    = "./gender-classifier-vit"
 BATCH_SIZE    = 32
 EPOCHS        = 25
 SEED          = 42
-LABEL2ID      = {"boys": 0, "girls": 1}
-ID2LABEL      = {0: "boys", 1: "girls"}
+LABEL2ID      = {"male": 0, "female": 1}
+ID2LABEL      = {0: "male", 1: "female"}
 # ───────────────────────────────────────────────────────────────────────────────
 
 torch.manual_seed(SEED)
@@ -78,7 +80,7 @@ class GenderDataset(Dataset):
     def __getitem__(self, idx):
         row = self.df.iloc[idx]
         img_path = os.path.join(IMAGE_DIR, os.path.basename(row['hw_path']))
-        label = LABEL2ID[row['category']]
+        label = LABEL2ID[row['sex']]
 
         image = Image.open(img_path).convert("RGB")
 
@@ -123,17 +125,17 @@ def compute_metrics(eval_pred):
 def train():
     df = pd.read_csv(MANIFEST_PATH)
 
-    # Normalize category column
-    df['category'] = df['category'].str.strip().str.lower()
-    df = df[df['category'].isin(['boys', 'girls'])].reset_index(drop=True)
+    # Normalize sex column
+    df['sex'] = df['sex'].str.strip().str.lower()
+    df = df[df['sex'].isin(['male', 'female'])].reset_index(drop=True)
 
     train_df = df[df['split'] == 'train'].reset_index(drop=True)
     val_df   = df[df['split'] == 'val'].reset_index(drop=True)
     test_df  = df[df['split'] == 'test'].reset_index(drop=True)
 
     print(f"Train: {len(train_df)} | Val: {len(val_df)} | Test: {len(test_df)}")
-    print("Train gender dist:", train_df['category'].value_counts().to_dict())
-    print("Test  gender dist:", test_df['category'].value_counts().to_dict())
+    print("Train sex dist:", train_df['sex'].value_counts().to_dict())
+    print("Test  sex dist:", test_df['sex'].value_counts().to_dict())
 
     processor = ViTImageProcessor.from_pretrained(MODEL_NAME)
     model = ViTForImageClassification.from_pretrained(
@@ -149,13 +151,13 @@ def train():
     test_dataset  = GenderDataset(test_df,  processor, is_train=False)
 
     # Compute class weights for training set
-    n_boys = (train_df['category'] == 'boys').sum()
-    n_girls = (train_df['category'] == 'girls').sum()
-    total = n_boys + n_girls
-    w_boys = total / (2.0 * n_boys)
-    w_girls = total / (2.0 * n_girls)
-    class_weights = torch.tensor([w_boys, w_girls], dtype=torch.float)
-    print(f"Class weights: boys={w_boys:.4f}, girls={w_girls:.4f}")
+    n_male   = (train_df['sex'] == 'male').sum()
+    n_female = (train_df['sex'] == 'female').sum()
+    total    = n_male + n_female
+    w_male   = total / (2.0 * n_male)
+    w_female = total / (2.0 * n_female)
+    class_weights = torch.tensor([w_male, w_female], dtype=torch.float)
+    print(f"Class weights: male={w_male:.4f}, female={w_female:.4f}")
 
     training_args = TrainingArguments(
         output_dir=OUTPUT_DIR,
@@ -212,9 +214,9 @@ def train():
     pred_labels = [ID2LABEL[p] for p in preds]
     true_labels = [ID2LABEL[l] for l in labels]
     pd.DataFrame({'true': true_labels, 'pred': pred_labels}).to_csv(
-        "gender_results.csv", index=False
+        "sex_classification_results.csv", index=False
     )
-    print("Saved to gender_results.csv")
+    print("Saved to sex_classification_results.csv")
     print(f"Model saved to {OUTPUT_DIR}")
 
 
